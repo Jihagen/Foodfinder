@@ -8,15 +8,20 @@ import OptionModal from "./OptionModal";
 class IndecisionApp extends React.Component{
     state = {
         options: [],
+        name: "",
+        id: "",
+        mhd: "",
         selectedOption: undefined
     }
     
     handleDeleteOptions = () => {  
           this.setState(() => ({options: []}));
+          //DELETE CALL HERE
     };
     handleDeleteOption = (optionToRemove) => {
         this.setState((prevState) => ({
             options: prevState.options.filter((option) =>optionToRemove !== option)
+            //DELETE CALL HERE
         }));
     };
     handlePick = () => {
@@ -31,6 +36,9 @@ class IndecisionApp extends React.Component{
             return "Enter valid value to add item";
         } else if (this.state.options.indexOf(option) > -1) {
             return "This option already exists";
+            //instead of return this option already exists, 
+            //update call for number of i.e. bananas
+            //PUT CALL here!
         }
         this.setState((prevState)=> ({options: prevState.options.concat(option)}));
     };
@@ -41,6 +49,11 @@ class IndecisionApp extends React.Component{
     }
 
     componentDidMount() {
+        const apiUrl = 'https://api.github.com/users/hacktivist123/repos';
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => console.log('This is your data', data));
+
         try {
         const json = localStorage.getItem("options");
         const options = JSON.parse(json);
@@ -48,13 +61,15 @@ class IndecisionApp extends React.Component{
             this.setState(()=> ({options}));
         } 
         } catch (e){
-            //DO NOTHING
+            //nothing needs to be done at this error handler
         }
     }
+
     componentDidUpdate(prevProps, prevState) {
         if (prevState.options.length !== this.state.options.length) {
             const json = JSON.stringify(this.state.options);
             localStorage.setItem("options", json);
+            // POST CALL instead of local Storage
         }
     }
 
