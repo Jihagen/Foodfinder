@@ -4,13 +4,12 @@ import Action from "./Action";
 import Header from "./Header";
 import Options from "./Options";
 import OptionModal from "./OptionModal";
+import Mhd from "./AddDate";
 
 class IndecisionApp extends React.Component{
     state = {
         options: [],
-        name: "",
-        id: "",
-        mhd: "",
+        value: new Date(),
         selectedOption: undefined
     }
     
@@ -42,6 +41,11 @@ class IndecisionApp extends React.Component{
         }
         this.setState((prevState)=> ({options: prevState.options.concat(option)}));
     };
+    changeDate = (e) => {
+        this.setState(() =>({ 
+            value: e.value }));
+    };
+
     handleOkay = () => {
         this.setState(() => ({
             selectedOption: undefined
@@ -92,6 +96,11 @@ class IndecisionApp extends React.Component{
             />
            <AddOptions 
                 handleAddOption = {this.handleAddOption}
+           />
+           <Mhd
+                value = {this.state.value}
+                changeDate = {this.changeDate}
+        
            />
            </div>
            </div>

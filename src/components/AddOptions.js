@@ -25,5 +25,11 @@ export default class AddOptions extends React.Component{
             </form>
             </div>
         );
-    }
-}
+    };
+};
+
+    
+
+    
+
+    
