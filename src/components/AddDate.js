@@ -1,35 +1,52 @@
 import React from "react";
-import DateInput from '@progress/kendo-react-dateinputs';
+import moment from 'react-moment';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
+ 
 
-export default class Mhd extends React.Component {
-    state = { 
-        value: new Date()
-     };
-     
-    
-    changeDate = (e) => {
-        e.preventDefault();
-        const mhd = e.target.elements.option.value.trim();
-        const error = this.props.changeDate(mhd);
-        this.setState(()=>({error}));
+export default class Example extends React.Component {
+   
+    constructor(props) {
+        super(props)
+        this.state = {
+            startDate: new Date 
+        }
+    this.handleChange =this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-        if (!error) {
-         this.setState({ value: e.value });
-        }};
-        
-render() {
-    return (
-        <div>
-            <DateInput
-                    value={this.state.value}
-                    onChange={this.changeDate}
-                />
-            <button className="button">Add Best Before Date</button>
-        </div>
-    );
-}}
+    handleChange = date => {
+      this.props.handleChange(date)
+      this.setState( {
+        startDate: date
+      },
+      () => console.log(this.state.startDate)); 
+    }
 
-// e.target.elements.option.value = new Date;
-// <form className = "addOption__date" onChange={this.changeDate} value={this.state.value}> </form> 
-//           <input className = "addOption__date" type="date" name="option__date" /> 
+    handleSubmit(e, prevprops) {
+       e.preventDefault();
+       let date = this.state.startDate;
+       console.log(date) 
+   }; 
+
+   
+    render() {
+      return (
+          <div className = "container">
+            <form onSubmit = {this.handleSubmit}>
+            <div className = "form-group">
+            <label>Select Best-before Date: </label>
+        <DatePicker
+          selected={this.state.startDate}
+          date = {this.state.startDate}
+          onChange={this.handleChange}
+          selectedDate = {this.state.startDate.toLocaleDateString}
+          />
+          </div>
+          <p>{this.state.startDate.toLocaleDateString ()}</p>
+         </form>
+         </div>
+      );
+    }
+}

@@ -1,5 +1,7 @@
 import React from "react";
 import Option from "./Option";
+import Date from "./Date";
+
 
 
 const Options = (props) => (
@@ -20,9 +22,17 @@ const Options = (props) => (
                 optionText = {option}
                 count = {index +1}
                 handleDeleteOption = {props.handleDeleteOption}
+                selected = {props.selected}
+                // selectedDate = {date}
                 />
+                /* <Date
+                key = {date}
+                dateText = {date}
+                count = {index + 1}
+                handleDeleteOption = {props.handleDeleteOption}
+                /> */
                 ))
-            }
+             };    
         </div>
     );
 

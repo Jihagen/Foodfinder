@@ -4,23 +4,22 @@ import Action from "./Action";
 import Header from "./Header";
 import Options from "./Options";
 import OptionModal from "./OptionModal";
-import Mhd from "./AddDate";
+import Example from "./AddDate";
 
 class IndecisionApp extends React.Component{
     state = {
         options: [],
-        value: new Date(),
+        dates: [],
+        selected: new Date(),
         selectedOption: undefined
     }
     
     handleDeleteOptions = () => {  
-          this.setState(() => ({options: []}));
-          //DELETE CALL HERE
+          this.setState(() => ({options: [], dates: []}));
     };
     handleDeleteOption = (optionToRemove) => {
         this.setState((prevState) => ({
             options: prevState.options.filter((option) =>optionToRemove !== option)
-            //DELETE CALL HERE
         }));
     };
     handlePick = () => {
@@ -30,21 +29,31 @@ class IndecisionApp extends React.Component{
             selectedOption: option
         }));
     };
-    handleAddOption= (option) => {
+    handleAddOption= (option, prevprops) => {
         if(!option){
             return "Enter valid value to add item";
         } else if (this.state.options.indexOf(option) > -1) {
             return "This option already exists";
-            //instead of return this option already exists, 
-            //update call for number of i.e. bananas
-            //PUT CALL here!
         }
         this.setState((prevState)=> ({options: prevState.options.concat(option)}));
     };
-    changeDate = (e) => {
-        this.setState(() =>({ 
-            value: e.value }));
+
+    
+    handleAddDate = (date, prevprops) => {
+        if(!date){
+            return "Enter Best before date to add item";
+        }
+        this.setState((prevState)=> ({dates: prevState.dates.concat(date)}));
+        // console.log(dates)
     };
+    //Date s do not have to be added to the options list as they can just be referred to by Index!!ssss*/
+
+    handleChange = date => {
+        this.setState({
+          startDate: date
+        });
+        () => console.log(this.state.startDate)
+      };
 
     handleOkay = () => {
         this.setState(() => ({
@@ -91,17 +100,16 @@ class IndecisionApp extends React.Component{
            <div className="widget">
            <Options 
                 options = {this.state.options}
+                dates = {this.state.dates}
+                selected  = {this.state.startDate}
                 handleDeleteOptions = {this.handleDeleteOptions}
                 handleDeleteOption = {this.handleDeleteOption}
             />
+            <div>
            <AddOptions 
                 handleAddOption = {this.handleAddOption}
            />
-           <Mhd
-                value = {this.state.value}
-                changeDate = {this.changeDate}
-        
-           />
+           </div>
            </div>
            </div>
            <OptionModal 
