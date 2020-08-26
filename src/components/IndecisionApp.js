@@ -7,11 +7,15 @@ import OptionModal from "./OptionModal";
 import Example from "./AddDate";
 
 class IndecisionApp extends React.Component{
-    state = {
-        options: [],
-        dates: [],
-        selected: new Date(),
-        selectedOption: undefined
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            options: [],
+            dates: [],
+            selectedOption: undefined,
+        }
+    this.handleChange =this.handleChange.bind(this)
     }
     
     handleDeleteOptions = () => {  
@@ -22,13 +26,14 @@ class IndecisionApp extends React.Component{
             options: prevState.options.filter((option) =>optionToRemove !== option)
         }));
     };
-    handlePick = () => {
+ /*   /*  handlePick = () => {
         const randomNum = Math.floor(Math.random()*this.state.options.length);
         const option = this.state.options[randomNum];
         this.setState(() => ({
             selectedOption: option
-        }));
-    };
+        })); 
+    }; */
+
     handleAddOption= (option, prevprops) => {
         if(!option){
             return "Enter valid value to add item";
@@ -38,15 +43,15 @@ class IndecisionApp extends React.Component{
         this.setState((prevState)=> ({options: prevState.options.concat(option)}));
     };
 
-    
-    handleAddDate = (date, prevprops) => {
-        if(!date){
+
+    handleAddDate = (selectedDate, prevprops) => {
+        if(!selectedDate){
             return "Enter Best before date to add item";
         }
-        this.setState((prevState)=> ({dates: prevState.dates.concat(date)}));
+        this.setState((prevState)=> ({dates: prevState.dates.concat(selectedDate)}));
         // console.log(dates)
     };
-    //Date s do not have to be added to the options list as they can just be referred to by Index!!ssss*/
+  
 
     handleChange = date => {
         this.setState({
@@ -82,9 +87,19 @@ class IndecisionApp extends React.Component{
         if (prevState.options.length !== this.state.options.length) {
             const json = JSON.stringify(this.state.options);
             localStorage.setItem("options", json);
-            // POST CALL instead of local Storage
         }
     }
+    
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.dates.length !== this.state.dates.length) {
+            const jsondate = JSON.stringify(this.state.dates);
+            localStorage.setItem("dates", jsondate);
+        }
+    }
+
+    callbackFunction = (childDate) => {
+        this.setState({selectedDate: childDate})
+      }
 
     render() {
     const subtitle = "Manage your fridge";
@@ -101,21 +116,24 @@ class IndecisionApp extends React.Component{
            <Options 
                 options = {this.state.options}
                 dates = {this.state.dates}
-                selected  = {this.state.startDate}
+                selectedDate = {this.state.selectedDate}
                 handleDeleteOptions = {this.handleDeleteOptions}
                 handleDeleteOption = {this.handleDeleteOption}
             />
             <div>
            <AddOptions 
                 handleAddOption = {this.handleAddOption}
+                dates = {this.state.dates}
+                handleAddDate ={this.handleAddDate}
+                parentCallback = {this.callbackFunction}
            />
            </div>
            </div>
            </div>
-           <OptionModal 
+          {/*  <OptionModal 
                 selectedOption = {this.state.selectedOption}
                 handleOkay = {this.handleOkay}
-           />
+           /> */}
            </div>
        )
    } 

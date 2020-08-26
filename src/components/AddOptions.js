@@ -4,13 +4,23 @@ import Example from "./AddDate";
 
 export default class AddOptions extends React.Component{
 
-  constructor(props) {
-    super(props)
-    this.state = {
-        date: new Date,
-        error: undefined,
-    };
-    }
+    constructor(props) {
+      super(props)
+      this.state = {
+          error: undefined,
+          dates: [],
+      }
+  this.handleChange =this.handleChange.bind(this)
+  this.handleAddDate = this.handleAddDate.bind(this)
+  }
+
+  callbackFunction = (childDate) => {
+    this.setState({selectedDate: childDate})
+  }
+
+  sendData = () => {
+    this.props.parentCallback(this.state.selectedDate);
+  }
 
     handleAddOption = (e, prevprops) => {
         e.preventDefault();
@@ -20,32 +30,31 @@ export default class AddOptions extends React.Component{
 
         if (!error) {
           e.target.elements.option.value = ""
-          console.log(this.state.startDate)
-        }
+          console.log(this.state.selectedDate)
+        } 
         
-        () => {
-          e.preventDefault();
-          console.log(date)
-        }
+        this.sendData ()
+        this.handleAddDate ()
+        console.log(this.state.dates)
     }
 
-    handleChange = date => {
+    handleChange = selectedDate => {
       this.setState( {
-        startDate: date
+        startDate: selectedDate
       },
       () => console.log(this.state.startDate)); 
     }
 
+    handleAddDate = (selectedDate, prevprops) => {
+      if(!selectedDate){
+          return "Enter Best before date to add item";
+      }
+      this.setState((prevState)=> ({dates: prevState.dates.concat(selectedDate)}));
+      console.log(this.state.dates)
+  };
 
-    
 
- /*  () => handleSubmit =
- 
- handleSubmit(e, prevprops) {
-       e.preventDefault();
-       let date = this.state.startDate;
-       console.log(date)
-   };  */
+
           
     render() {
         return(
@@ -56,13 +65,13 @@ export default class AddOptions extends React.Component{
             <button className="button">Add Option</button>
             <Example
             selected = {this.state.startDate}
+            date = {this.state.startDate}
             handleChange = {this.handleChange}
             handleAddDate = {this.handleAddDate}
+            parentCallback = {this.callbackFunction}
             />
             </form>
-
-            </div>
-            
+            </div> 
         );
     };
   }

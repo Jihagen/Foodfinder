@@ -22,17 +22,18 @@ const Options = (props) => (
                 optionText = {option}
                 count = {index +1}
                 handleDeleteOption = {props.handleDeleteOption}
-                selected = {props.selected}
-                // selectedDate = {date}
+                selectedDate = {props.selectedDate}
                 />
-                /* <Date
-                key = {date}
-                dateText = {date}
-                count = {index + 1}
-                handleDeleteOption = {props.handleDeleteOption}
-                /> */
                 ))
-             };    
+             }
+            {/*  {props.dates.map((date, index) =>
+             <Option
+             datekey = {date}
+             dateText = {date}
+             datecount = {index +1}
+             date = {date}
+             />
+             )}   */}
         </div>
     );
 

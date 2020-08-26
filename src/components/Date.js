@@ -1,20 +1,20 @@
 import React from "react";
 
+const Dates = (props) => (
+    <div>
+ <p> {props.date.toLocaleDateString()}</p>
+ {
+    props.dates.map((date, index) => (
+    <Option 
+    datekey = {date} 
+    dateText = {date.toLocaleDateString()}
+    datecount = {index +1}
+    onChange = {props.handleChange}
+    />
+    ))
+ }
+ </div>
+ 
+)
 
-const Date = (props) => (
-        <div className="date">
-        <p className = "widget__message">Best before: {props.dateText}</p>
-        <button 
-        className ="button button--link"
-        onClick = {(e) => {
-            props.handleDeleteDate(props.selectedDate);
-        }}    
-        >
-        Ate it!
-        </button>
-        </div>
-    );
-
-//This is where the Mhd Should appear and needs to be changed!
-
-export default Date;
+ export default Dates
